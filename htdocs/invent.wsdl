@@ -1,0 +1,94 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://bocsy.komput.net/bocsy.php" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" name="Invent" targetNamespace="http://dv.komput.net/test/inv/inv.php.php">
+<wsdl:types>
+<xsi:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema" targetNamespace="http://dv.komput.net/test/inv/inv.php" elementFormDefault="qualified">
+<xsi:complexType name="Item">
+<xsi:all>
+<xsi:element name="number" type="xsi:int"/>
+<xsi:element name="s_desc" type="xsi:string"/>
+<xsi:element name="l_desc" type="xsi:string"/>
+<xsi:element name="value" type="xsi:float"/>
+<xsi:element name="old_ctrl" type="xsi:string"/>
+<xsi:element name="serial" type="xsi:string"/>
+<xsi:element name="model" type="xsi:string"/>
+<xsi:element name="quantity" type="xsi:int"/>
+<xsi:element name="source" type="xsi:string"/>
+</xsi:all>
+</xsi:complexType>
+<xsi:complexType name="ArrayOfString">
+<xsi:complexContent>
+<xsi:restriction base="soapenc:Array">
+<xsi:attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+</xsi:restriction>
+</xsi:complexContent>
+</xsi:complexType>
+</xsi:schema>
+</wsdl:types>
+<wsdl:message name="InsertRequest">
+<wsdl:part name="item" type="tns:Item"/>
+</wsdl:message>
+<wsdl:message name="InsertResponse">
+<wsdl:part name="item_num" type="xs:int"/>
+<wsdl:part name="last_cat" type="xd:int"/>
+</wsdl:message>
+<wsdl:message name="GetRequest">
+<wsdl:part name="item_num" type="xs:string"/>
+</wsdl:message>
+<wsdl:message name="GetResponse">
+<wsdl:part name="item" type="tns:Item"/>
+</wsdl:message>
+<wsdl:message name="LastGet">
+<wsdl:part name="category" type="xs:int"/>
+</wsdl:message>
+<wsdl:message name="LastResponse">
+<wsdl:part name="item_num" type="xs:int"/>
+</wsdl:message>
+<wsdl:portType name="Invent">
+<wsdl:operation name="Insert">
+<wsdl:input message="tns:InsertRequest"/>
+<wsdl:output message="tns:InsertResponse"/>
+</wsdl:operation>
+<wsdl:operation name="Get">
+<wsdl:input message="tns:GetRequest"/>
+<wsdl:output message="tns:GetResponse"/>
+</wsdl:operation>
+<wsdl:operation name="Last">
+<wsdl:input message="tns:LastRequest"/>
+<wsdl:output message="tns:LastResponse"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="Invent" type="tns:Invent">
+<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="Insert">
+<soap:operation soapAction="urn:#Insert"/>
+<wsdl:input>
+<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dv.komput.net/test/inv/inv.php"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dv.komput.net/test/inv/inv.php"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="Get">
+<soap:operation soapAction="urn:#Get"/>
+<wsdl:input>
+<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dv.komput.net/test/inv/inv.php"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dv.komput.net/test/inv/inv.php"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="Last">
+<soap:operation soapAction="urn:#Last"/>
+<wsdl:input>
+<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dv.komput.net/test/inv/inv.php"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dv.komput.net/test/inv/inv.php"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="Invent">
+<wsdl:port name="Invent" binding="tns:Invent">
+<soap:address location="http://dv.komput.net/test/inv/inv.php"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
