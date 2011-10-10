@@ -1,0 +1,13 @@
+<?php
+
+class DB {
+
+function db_connect()
+{
+  $db = new mysqli('#host#', '#login#', '#pass#', '#db#');
+  mysqli_autocommit($db, FALSE);
+  return $db;
+}
+
+}
+?>
