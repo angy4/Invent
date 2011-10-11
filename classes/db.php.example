@@ -2,10 +2,10 @@
 
 class DB {
 
-function db_connect()
+function db_connect($commit)
 {
   $db = new mysqli('#host#', '#login#', '#pass#', '#db#');
-  mysqli_autocommit($db, FALSE);
+  if ($commit) mysqli_autocommit($db, FALSE);
   return $db;
 }
 

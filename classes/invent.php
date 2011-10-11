@@ -70,14 +70,61 @@ public function Insert($number, $category, $s_desc, $l_desc, $value, $old_ctrl, 
   return new SoapParam($return, 'InsertResponseMessage');
 }
 
-public function Get($item_num)
+public function Get($item_num, $full_text = FALSE))
 {
-  return $item_num;
+  if (!$full_text)
+  {
+    $q = ("SELECT number, category, s_desc, l_desc, value, old_ctrl, serial, model, quantity, source FROM items WHERE number=$number");
+    $r = Misc::db_query($q);
+    $s = Misc::db_row($r);
+
+    $return = array(
+      'number' => $db_row[0],
+      'category' => $db_row[1],
+      's_desc' => $db_row[2],
+      'l_desc' => $db_row[3],
+      'value' => $db_row[4],
+      'old_ctrl' => $db_row[5],
+      'serial' => $db_row[6],
+      'quantity' => $db_row[7],
+      'source' => $db_row[8]
+    );
+
+    return new SoapParam($return, 'ItemList');
+  } else {
+    $return = array(
+      'number' => array(),
+      'category' => array(),
+      's_desc' => array(),
+      'l_desc' => array(),
+      'value' => array(),
+      'old_ctrl' => array(),
+      'serial' => array(),
+      'quantity' => array(),
+      'source' => array()
+    );
+
+    $q = ("SELECT number, category, s_desc, l_desc, value, old_ctrl, serial, model, quantity, source FROM items WHERE l_desc LIKE '%$item_num%'");
+    $r = Misc::db_query($q);
+    while ($s = mysqli_fetch_row($r)) {
+      $return['number'][$i] = $s[0];
+      $return['category'][$i] = $s[0];
+      $return['s_desc'][$i] = $s[0];
+      $return['l_desc'][$i] = $s[0];
+      $return['value'][$i] = $s[0];
+      $return['old_ctrl'][$i] = $s[0];
+      $return['serial'][$i] = $s[0];
+      $return['quantity'][$i] = $s[0];
+      $return['source'][$i] = $s[0];
+      $i++;
+    }
+    return new SoapParam($return, 'ItemList');
+}
 }
 
 public function Last($category)
 {
-  return $category;
+
 }
 
 }

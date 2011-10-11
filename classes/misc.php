@@ -6,14 +6,14 @@ class Misc {
 
 function db_query($q)
 {
-  $db = DB::db_connect();
+  $db = DB::db_connect(FALSE);
   $xq = $db->query($q);
   return $xq;
 }
 
 function db_start()
 {
-  return DB::db_connect();
+  return DB::db_connect(TRUE);
 }
 
 function db_squery($db, $q)

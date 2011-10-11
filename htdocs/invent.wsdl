@@ -28,6 +28,20 @@
 </xsi:restriction>
 </xsi:complexContent>
 </xsi:complexType>
+<xsi:complexType name="ItemList">
+<xsi:all>
+<xsi:element name="number" type="typens:ArrayOfString"/>
+<xsi:element name="category" type="typens:ArrayOfString"/>
+<xsi:element name="s_desc" type="typens:ArrayOfString"/>
+<xsi:element name="l_desc" type="typens:ArrayOfString"/>
+<xsi:element name="value" type="typens:ArrayOfString"/>
+<xsi:element name="old_ctrl" type="typens:ArrayOfString"/>
+<xsi:element name="serial" type="typens:ArrayOfString"/>
+<xsi:element name="model" type="typens:ArrayOfString"/>
+<xsi:element name="quantity" type="typens:ArrayOfString"/>
+<xsi:element name="source" type="typens:ArrayOfString"/>
+</xsi:all>
+</xsi:complexType>
 </xsi:schema>
 </wsdl:types>
 <wsdl:message name="InsertRequest">
@@ -47,6 +61,7 @@
 </wsdl:message>
 <wsdl:message name="GetRequest">
 <wsdl:part name="item_num" type="xs:string"/>
+<wsdl:part name="full_text" type="xs:bool"/>
 </wsdl:message>
 <wsdl:message name="GetResponse">
 <wsdl:part name="item" type="tns:Item"/>
