@@ -40,7 +40,7 @@ public function Insert($number, $category, $s_desc, $l_desc, $value, $old_ctrl, 
   // get last number use, and locking for non double insert
   $q = ("SELECT number FROM items WHERE category='$category' ORDER BY number DESC LIMIT 1 FOR UPDATE");
   $r = Misc::db_squery($db, $q);
-  $number = Misc::db_wsel($r);   
+  $number = Misc::db_wsel($r) + 1;   
 
   // the actual insertion
   $q = ("INSERT INTO items(number, category, s_desc, l_desc, value, old_ctrl, serial, model, quantity, source) VALUES ('$number', '$category', '$s_desc', '$l_desc', '$value', '$old_ctrl', '$serial', '$model', '$quantity', '$source')");
