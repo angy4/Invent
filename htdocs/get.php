@@ -13,9 +13,8 @@ Query:<input type="text" name="item_num">
 </form>
 Full text only on long description.
 <?php
-if (!empty($_POST['type']))
+if (!empty($_POST['item_num']))
 {
-  $type = $_POST['type'];
   $item_num = $_POST['item_num'];
   
   $re = $soap->Get($item_num, 1);
