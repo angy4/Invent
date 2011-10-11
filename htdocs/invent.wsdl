@@ -61,7 +61,7 @@
 </wsdl:message>
 <wsdl:message name="GetRequest">
 <wsdl:part name="item_num" type="xs:string"/>
-<wsdl:part name="full_text" type="xs:bool"/>
+<wsdl:part name="full_text" type="xs:int"/>
 </wsdl:message>
 <wsdl:message name="GetResponse">
 <wsdl:part name="item" type="tns:Item"/>

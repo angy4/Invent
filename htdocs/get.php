@@ -6,9 +6,8 @@ $soap = new SoapClient("http://dv.komput.net/test/inv/inv.php", array('location'
 <body>
 This is <tt>Invent</tt><br>
 <br>
-Search system<br>
+Search system, full text on description, search item number, serial or model<br>
 <form name="search" method="post" action="">
-Type:<select name="type"><option value="FALSE">Item number</option><option value="TRUE">Full text</option><select><br>
 Query:<input type="text" name="item_num">
 <input type="submit" value="Search!" name="search">
 </form>
@@ -18,8 +17,8 @@ if (!empty($_POST['type']))
 {
   $type = $_POST['type'];
   $item_num = $_POST['item_num'];
-
-  $re = $soap->Get($item_num, $type);
+  
+  $re = $soap->Get($item_num, 1);
 
   if (!empty($re))
   {
@@ -39,9 +38,11 @@ if (!empty($_POST['type']))
 <td>Source</td>
 </tr>
 <?php
-$n = sizeof($re->number);
+$n = sizeof($re['number']);
 for ($row = 0; $row < $n; $row++)
 {
-echo '<tr><td>' . $re->number[$row] . '</td><td>' . $re->category[$row] . '</td><td>' . $re->s_desc[$row] . '</td><td>' . $re->l_desc[$row] . '</td><td>' . $re->value[$row] . '</td><td>' . $re->old_ctrl[$row] . '</td><td>' . $re->serial[$row] . '</td><td>' . $re->model[$row] . '</td><td>' . $re->quantity[$row] . '</td><td>' . $re->source[$row] . '</td></tr>';
+echo '<tr><td>' . $re['number'][$row] . '</td><td>' . $re['category'][$row] . '</td><td>' . $re['s_desc'][$row] . '</td><td>' . $re['l_desc'][$row] . '</td><td>' . $re['value'][$row] . '</td><td>' . $re['old_ctrl'][$row] . '</td><td>' . $re['serial'][$row] . '</td><td>' . $re['model'][$row] . '</td><td>' . $re['quantity'][$row] . '</td><td>' . $re['source'][$row] . '</td></tr>';
+}
+}
 }
 ?> 
