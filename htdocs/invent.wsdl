@@ -4,6 +4,7 @@
 <xsi:complexType name="Item">
 <xsi:all>
 <xsi:element name="number" type="xsi:int"/>
+<xsi:element name="category" type="xsi:int"/>
 <xsi:element name="s_desc" type="xsi:string"/>
 <xsi:element name="l_desc" type="xsi:string"/>
 <xsi:element name="value" type="xsi:float"/>
@@ -12,6 +13,12 @@
 <xsi:element name="model" type="xsi:string"/>
 <xsi:element name="quantity" type="xsi:int"/>
 <xsi:element name="source" type="xsi:string"/>
+</xsi:all>
+</xsi:complexType>
+<xsi:complexType name="InsertResponseMessage">
+<xsi:all>
+<xsi:element name="number" type="xsi:int"/>
+<xsi:element name="category" type="xsi:int"/>
 </xsi:all>
 </xsi:complexType>
 <xsi:complexType name="ArrayOfString">
@@ -24,11 +31,19 @@
 </xsi:schema>
 </wsdl:types>
 <wsdl:message name="InsertRequest">
-<wsdl:part name="item" type="tns:Item"/>
+<wsdl:part name="number" type="xsi:int"/>
+<wsdl:part name="category" type="xsi:int"/>
+<wsdl:part name="s_desc" type="xsi:string"/>
+<wsdl:part name="l_desc" type="xsi:string"/>
+<wsdl:part name="value" type="xsi:float"/>
+<wsdl:part name="old_ctrl" type="xsi:string"/>
+<wsdl:part name="serial" type="xsi:string"/>
+<wsdl:part name="model" type="xsi:string"/>
+<wsdl:part name="quantity" type="xsi:int"/>
+<wsdl:part name="source" type="xsi:string"/>
 </wsdl:message>
 <wsdl:message name="InsertResponse">
-<wsdl:part name="item_num" type="xs:int"/>
-<wsdl:part name="last_cat" type="xd:int"/>
+<wsdl:part name="item_num" type="tns:InsertResponseMessage"/>
 </wsdl:message>
 <wsdl:message name="GetRequest">
 <wsdl:part name="item_num" type="xs:string"/>
@@ -36,7 +51,7 @@
 <wsdl:message name="GetResponse">
 <wsdl:part name="item" type="tns:Item"/>
 </wsdl:message>
-<wsdl:message name="LastGet">
+<wsdl:message name="LastRequest">
 <wsdl:part name="category" type="xs:int"/>
 </wsdl:message>
 <wsdl:message name="LastResponse">

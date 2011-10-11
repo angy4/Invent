@@ -11,6 +11,21 @@ function db_query($q)
   return $xq;
 }
 
+function db_start()
+{
+  return DB::db_connect();
+}
+
+function db_squery($db, $q)
+{
+  return $db->query($q);
+}
+
+function db_close($db)
+{
+  return $db->close();
+}
+
 function db_row($q)
 {
   return $q->fetch_row();

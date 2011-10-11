@@ -29,34 +29,38 @@ public function Insert($number, $category, $s_desc, $l_desc, $value, $old_ctrl, 
   if (strlen($s_desc) > 63)
     substr($s_desc, 0, 63);
 
-  if (empty($value)
+  if (empty($value))
     $value = 0.01;
 
   // get transation lock
+  $db = Misc::db_start();
   $q = ("BEGIN");
-  $f = Misc::query($q);
+  $f = Misc::db_squery($db, $q);
 
   // get last number use, and locking for non double insert
   $q = ("SELECT number FROM items WHERE category='$category' ORDER BY number DESC LIMIT 1 FOR UPDATE");
-  $r = Misc::query($q);
+  $r = Misc::db_squery($db, $q);
   $number = Misc::db_wsel($r);   
 
   // the actual insertion
   $q = ("INSERT INTO items(number, category, s_desc, l_desc, value, old_ctrl, serial, model, quantity, source) VALUES ('$number', '$category', '$s_desc', '$l_desc', '$value', '$old_ctrl', '$serial', '$model', '$quantity', '$source')");
-  $r = Misc::query($q);
+  $r = Misc::db_squery($db, $q);
   if (!$r)
     {
       $return = array(
         'number' => '-1',
         'category' => '2'
       );
+    $q = ("ROLLBACK");
+    $r = Misc::db_squery($db, $q);
+    Misc::db_close($db);
     return new SoapParam($return, 'InsertResponseMessage');
     }
 
   // transaction commit
   $q = ("COMMIT");
-  $r = Misc::query($q);
-  $s = Misc::db_sel($r);
+  $r = Misc::db_squery($db, $q);
+  Misc::db_close($db);
 
   $return = array(
     'number' => $number,
