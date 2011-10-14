@@ -1,0 +1,19 @@
+Insert
+
+requires parameters:
+$category : item category (an integer, taken from the first digit(s) of old numbering system (5 for instance)) - ii
+$number : old inventory number (an integer (500012 for instance)) - iiiiiiiiiiiiiiii
+$uid : UserID of the wordpress user doing that item, used for trace(s) will move to bocsy uid eventually - iiiiii
+$s_desc : Short description, mandatory or will not insert and throw error. Restricted to 63 characters, will chop. - c[63]
+$l_desc : if empty, will use short description instead - c[255]
+$value : item value, if empty will use 0.01. It is a /float/ dddddddddd.ff
+$old_ctrl : old control from previous owner - c[32]
+$serial : item serial number - c[32]
+$model : item modem - c[64]
+$quantity : quantity - iiii
+$source : c[64]
+
+-----
+
+Get
+/is deprecated/

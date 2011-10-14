@@ -4,13 +4,8 @@ require_once('misc.php');
 
 class Invent {
 
-public function Insert($number, $category, $s_desc, $l_desc, $value, $old_ctrl, $serial, $model, $quantity, $source)
+public function Insert($category, $number, $uid, $s_desc, $l_desc, $value, $old_ctrl, $serial, $model, $quantity, $source)
 {
-  // return constructor
-  $InsertResponseMessage = array(
-    'number' => '',
-    'category' => ''
-  );
 
   // mandatory items, throw error
   if(empty($category) || empty($s_desc))
@@ -37,13 +32,8 @@ public function Insert($number, $category, $s_desc, $l_desc, $value, $old_ctrl, 
   $q = ("BEGIN");
   $f = Misc::db_squery($db, $q);
 
-  // get last number use, and locking for non double insert
-  $q = ("SELECT number FROM items WHERE category='$category' ORDER BY number DESC LIMIT 1 FOR UPDATE");
-  $r = Misc::db_squery($db, $q);
-  $number = Misc::db_wsel($r) + 1;   
-
   // the actual insertion
-  $q = ("INSERT INTO items(number, category, s_desc, l_desc, value, old_ctrl, serial, model, quantity, source) VALUES ('$number', '$category', '$s_desc', '$l_desc', '$value', '$old_ctrl', '$serial', '$model', '$quantity', '$source')");
+  $q = ("INSERT INTO items(category, old_number, uid, s_desc, l_desc, value, old_ctrl, serial, model, quantity, source) VALUES ('$category', '$number', '$uid', '$s_desc', '$l_desc', '$value', '$old_ctrl', '$serial', '$model', '$quantity', '$source')");
   $r = Misc::db_squery($db, $q);
   if (!$r)
     {
@@ -56,6 +46,19 @@ public function Insert($number, $category, $s_desc, $l_desc, $value, $old_ctrl, 
     Misc::db_close($db);
     return new SoapParam($return, 'InsertResponseMessage');
     }
+
+  // Get insert id for x_ref and speedsearch
+  $q = ("SELECT LAST_INSERT_ID()");
+  $r = Misc::db_squery($db, $q);
+  $x_ref = Misc::db_wsel($r);
+
+  // speedsearch populate
+  $q = ("INSERT INTO speedsearch(x_ref, md5) values('$x_ref', MD5('$s_desc')");
+  $r = Misc::db_squery($db, $q);
+  
+  // if OK, increment user
+  $q = ("INSERT INTO users(uid, count) VALUES('$uid', 1) ON DUPLICATE KEY UPDATE count=count+1")
+  $r = Misc::db_squery($db, $q);
 
   // transaction commit
   $q = ("COMMIT");

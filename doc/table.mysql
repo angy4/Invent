@@ -1,0 +1,25 @@
+CREATE TABLE `items` (
+  `id` int(12) NOT NULL auto_increment,
+  `category` int(2) NOT NULL,
+  `old_number` int(16) NOT NULL,
+  `uid` int(6) NOT NULL default '0',
+  `s_desc` char(64) NOT NULL,
+  `l_desc` char(255) default NULL,
+  `value` decimal(10,2) NOT NULL default '0.01',
+  `old_ctrl` char(32) default NULL,
+  `serial` char(32) default NULL,
+  `model` char(64) default NULL,
+  `quantity` int(4) NOT NULL default '1',
+  `source` char(64) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `number` (`old_number`),
+  KEY `full_text` (`l_desc`),
+  KEY `category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `users` (
+  `uid` int(6) NOT NULL default '0',
+  `count` int(20) NOT NULL default '1',
+  PRIMARY KEY (`uid`),
+  KEY `count` (`count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
